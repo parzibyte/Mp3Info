@@ -648,7 +648,12 @@ class Mp3Info {
 
         if ($data['encoding'] == 0x00) # ISO-8859-1
             return mb_convert_encoding($data['information'], 'utf-8', 'iso-8859-1');
-        else # utf-16
+        else{ # utf-16
+            # Fix the missing last char of the info bug
+            # Add NUL character at the end of the string. 
+            # Don't ask, just enjoy. Idk why it works, but it works!
+            $data["information"] .=  chr(0);
             return mb_convert_encoding($data['information'], 'utf-8', 'utf-16');
+        }
     }
 }
